@@ -31,7 +31,6 @@ function clearForecast() {
 }
 
 // Function to get the forecast for a specific location
-// Function to get the forecast for a specific location
 async function getWeatherForecast(city) {
   try {
     const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKeyWeather}`;
