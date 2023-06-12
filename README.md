@@ -1,1 +1,4 @@
 # Weather-Checker
+
+This challenge was very eye opening on how cool and kinda frusterating apis can be. The whole idea of apis were very cool to be based on the fact you can get previously unobtainable information for very easy. The api key was a little bugger at first but now that it works everything got easier after that. I had to do a lot of looking up differenbt syntax and looking back at older lessons and talking to tutors this time around. I feel it gave me a better outlook on apis and I personally love them now. I did have some troubles making the site LOOK better but I think the functionallity is there. Bootstrap was also easy to use so I will definatly be using that more often. In conclusion I liked Learning more about Apis and this project challenged me and pushed me to learn a lot.
+
