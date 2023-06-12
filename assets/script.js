@@ -42,11 +42,24 @@ async function getWeatherForecast(city) {
     console.log("Today's Forecast:");
     console.log(data.list[0]);
     weatherToday.textContent = `Temperature: ${data.list[0].main.temp}°C, Clouds: ${data.list[0].clouds.all}%`;
+    
     DateToday.textContent = new Date().toLocaleDateString('en-US', {
       weekday: 'long',
       month: 'long',
       day: 'numeric'
     });
+        const todayHumidityElement = document.createElement('span');
+    todayHumidityElement.textContent = `Humidity: ${data.list[0].main.humidity}%`;
+
+    // Create weather icon element for today's forecast
+    const todayIconElement = document.createElement('img');
+    const todayIconUrl = `http://openweathermap.org/img/w/${data.list[0].weather[0].icon}.png`;
+    todayIconElement.src = todayIconUrl;
+    todayIconElement.alt = data.list[0].weather[0].description;
+
+    // Append humidity and weather icon to today's forecast box
+    weatherToday.appendChild(todayHumidityElement);
+    weatherToday.appendChild(todayIconElement);
 
     // Next 5 days' forecast
     console.log("Next 5 Days' Forecast:");
@@ -57,6 +70,18 @@ async function getWeatherForecast(city) {
       const date = new Date();
       date.setDate(date.getDate() + i + 1);
       forecastBox.textContent = `Temperature: ${data.list[i].main.temp}°C, Clouds: ${data.list[i].clouds.all}%`;
+      const humidityElement = document.createElement('span');
+      humidityElement.textContent = `Humidity: ${data.list[i].main.humidity}%`;
+  
+  // Create weather icon element
+      const iconElement = document.createElement('img');
+      const iconUrl = `http://openweathermap.org/img/w/${data.list[i].weather[0].icon}.png`;
+      iconElement.src = iconUrl;
+      iconElement.alt = data.list[i].weather[0].description;
+
+  // Append humidity and weather icon to forecast box
+      forecastBox.appendChild(humidityElement);
+      forecastBox.appendChild(iconElement);
 
       switch (i) {
         case 0:
