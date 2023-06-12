@@ -14,7 +14,7 @@ var Date5 = document.querySelector("#Date5");
 var SearchBtn = document.querySelector("#btn");
 var SearchInput = document.querySelector("#search-input");
 
-// Function to clear forecast data and date elements
+// Function to clear all of the previous forcast elements.
 function clearForecast() {
   weatherToday.textContent = "";
   weatherOne.textContent = "";
@@ -61,7 +61,7 @@ async function getWeatherForecast(city) {
     weatherToday.appendChild(todayHumidityElement);
     weatherToday.appendChild(todayIconElement);
 
-    // Next 5 days' forecast
+    // Next 5 days forecast
     console.log("Next 5 Days' Forecast:");
     for (let i = 0; i < 5; i++) {
       console.log(data.list[i]);
@@ -73,7 +73,7 @@ async function getWeatherForecast(city) {
       const humidityElement = document.createElement('span');
       humidityElement.textContent = `Humidity: ${data.list[i].main.humidity}%`;
   
-  // Create weather icon element
+  // Create weather icon
       const iconElement = document.createElement('img');
       const iconUrl = `http://openweathermap.org/img/w/${data.list[i].weather[0].icon}.png`;
       iconElement.src = iconUrl;
@@ -131,6 +131,46 @@ async function getWeatherForecast(city) {
   }
 }
 
+// Saving the previous searches to local storage and placing them below the search button
+function saveSearchHistory(city) {
+  let searchHistory = localStorage.getItem('searchHistory');
+  if (!searchHistory) {
+    searchHistory = [];
+  } else {
+    searchHistory = JSON.parse(searchHistory);
+  }
+
+  // Remove the oldest search if the history exceeds 5 entries
+  if (searchHistory.length >= 5) {
+    searchHistory.shift();
+  }
+
+  // Add the new search to the history
+  searchHistory.push(city);
+
+  localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+}
+
+function updateSearchHistoryUI() {
+  const searchHistory = JSON.parse(localStorage.getItem('searchHistory'));
+  const searchHistoryContainer = document.querySelector("#searchHistory");
+  searchHistoryContainer.innerHTML = "";
+
+  // Adding the responces back into the code as buttons 
+  if (searchHistory && searchHistory.length > 0) {
+    for (let i = searchHistory.length - 1; i >= 0; i--) {
+      const searchItem = document.createElement('button'); 
+      searchItem.setAttribute('type', 'button'); 
+      searchItem.classList.add('search-history-item');
+      searchItem.textContent = searchHistory[i];
+      searchItem.addEventListener("click", function () {
+        SearchInput.value = searchHistory[i]; 
+      });
+      searchHistoryContainer.appendChild(searchItem);
+    }
+  }
+}
+
 
 // Event listener for the search button
 SearchBtn.addEventListener("click", function (event) {
@@ -139,5 +179,8 @@ SearchBtn.addEventListener("click", function (event) {
   if (city) {
     clearForecast();
     getWeatherForecast(city);
+    saveSearchHistory(city);
+    updateSearchHistoryUI();
   }
 });
+window.addEventListener('load', updateSearchHistoryUI);
